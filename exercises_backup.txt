@@ -1,6 +1,0 @@
-1 Squat
-2 Front-squat
-3 Dead-lift
-4 Row
-5 Narrow-row
-6 Military-press
