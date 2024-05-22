@@ -17,8 +17,17 @@ NOTIFICATION_WIDTH=50
 LOG_FILE="./log.csv"
 EXERCISES_FILE="./exercises.txt"
 
-EXERCISES=""
+DEFAULT_EXERCISE_NAMES=("Squat" "Dead-lift" "Row" "Military-press" "Bench-press")
+EXERCISES=()
 
+
+function update_exercises(){
+    local exercise_names=($(cat $EXERCISES_FILE))
+    for index in $(seq 0 $((${#exercise_names[@]}-1))); do
+        EXERCISES+=($(($index+1)) ${exercise_names[$index]})
+    done
+    return 0
+}
 
 function init(){
     if [ ! -f "$LOG_FILE" ]; then
@@ -27,9 +36,11 @@ function init(){
     fi
     if [ ! -f "$EXERCISES_FILE" ]; then
         touch "$EXERCISES_FILE"
-        echo "1 Squat 2 Front-squat 3 Row 4 Narrow-row 5 Pull-down 6 Military-press" > "$EXERCISES_FILE"
+        for name in ${DEFAULT_EXERCISE_NAMES[@]}; do
+            echo "$name" >> "$EXERCISES_FILE"
+        done
     fi
-    EXERCISES=($(cat "$EXERCISES_FILE"))
+    update_exercises
     return 0
 }
 
