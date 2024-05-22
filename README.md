@@ -1,12 +1,12 @@
 
 # Mu-Gym Logger
 
-This project is a simple logger to be used for gym activity book-keeping.
-The logger is written in bash and has a simple and intuitive text user
-interface.
-Currently, all files needed for the logger run-time are stored in the following
-directory: `$HOME/.local/share/mu_gym_logger/`.
-We may change this in the future by adding configuration options.
+This project is a simple logger to be used for gym activity book-keeping. The
+logger is written in bash and has a simple and intuitive text user interface.
+By default, all files needed for the logger run-time are stored in the
+following directory: `$HOME/.local/share/mu_gym_logger/`. This behavior can be
+changed by setting the enviromental variable `MU_GYM_LOGGER_DIR` to any desired
+directory.
 
 ## Usage
 
@@ -15,8 +15,8 @@ interface indications.
 
 ## TODOs
 
-Some changes and improvement that need to be addressed:
+Some changes and improvements that need to be addressed:
 
-* Add configuration options.
 * Add functions to visualize the logged data.
+* Add configuration options.
 

@@ -14,9 +14,11 @@ MENU_HEIGHT=5
 NOTIFICATION_HEIGHT=5
 NOTIFICATION_WIDTH=50
 
-LOG_FILE="$HOME/.local/share/mu_gym_logger/exercise_log.csv"
-WEIGHT_LOG_FILE="$HOME/.local/share/mu_gym_logger/weight_log.csv"
-EXERCISES_FILE="$HOME/.local/share/mu_gym_logger/exercises.txt"
+[ -z "$MU_GYM_LOGGER_DIR" ] \
+    && MU_GYM_LOGGER_DIR="$HOME/.local/share/mu_gym_logger"
+EXERCISE_LOG_FILE="$MU_GYM_LOGGER_DIR/exercise_log.csv"
+WEIGHT_LOG_FILE="$MU_GYM_LOGGER_DIR/weight_log.csv"
+EXERCISES_FILE="$MU_GYM_LOGGER_DIR/exercises.txt"
 
 DEFAULT_EXERCISE_NAMES=("Squat" "Dead-lift" "Row" "Military-press" "Bench-press")
 EXERCISES=()
@@ -38,9 +40,9 @@ function update_exercises(){
 }
 
 function init(){
-    if [ ! -f "$LOG_FILE" ]; then
-        mkfile "$LOG_FILE"
-        echo "timestamp,exercise_name,reps,weight_kg" > "$LOG_FILE"
+    if [ ! -f "$EXERCISE_LOG_FILE" ]; then
+        mkfile "$EXERCISE_LOG_FILE"
+        echo "timestamp,exercise_name,reps,weight_kg" > "$EXERCISE_LOG_FILE"
     fi
     if [ ! -f "$WEIGHT_LOG_FILE" ]; then
         mkfile "$WEIGHT_LOG_FILE"
@@ -116,7 +118,7 @@ function log_exercise_data(){
     local reps
     local weight
     read reps weight <<< "$selection"
-    local log_file="$LOG_FILE"
+    local log_file="$EXERCISE_LOG_FILE"
     log_exercise_data_csv_file "$1" $reps $weight "$log_file"
     return 0
 }
