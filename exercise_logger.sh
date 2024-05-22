@@ -14,13 +14,19 @@ MENU_HEIGHT=5
 NOTIFICATION_HEIGHT=5
 NOTIFICATION_WIDTH=50
 
-LOG_FILE="./exercise_log.csv"
-WEIGHT_LOG_FILE="./weight_log.csv"
-EXERCISES_FILE="./exercises.txt"
+LOG_FILE="$HOME/.local/share/mu_gym_logger/exercise_log.csv"
+WEIGHT_LOG_FILE="$HOME/.local/share/mu_gym_logger/weight_log.csv"
+EXERCISES_FILE="$HOME/.local/share/mu_gym_logger/exercises.txt"
 
 DEFAULT_EXERCISE_NAMES=("Squat" "Dead-lift" "Row" "Military-press" "Bench-press")
 EXERCISES=()
 
+
+function mkfile(){
+    local path="$1"
+    mkdir -p "$(dirname "$path")" && touch "$path"
+    return 0
+}
 
 function update_exercises(){
     EXERCISES=()
@@ -33,15 +39,15 @@ function update_exercises(){
 
 function init(){
     if [ ! -f "$LOG_FILE" ]; then
-        touch "$LOG_FILE"
+        mkfile "$LOG_FILE"
         echo "timestamp,exercise_name,reps,weight_kg" > "$LOG_FILE"
     fi
     if [ ! -f "$WEIGHT_LOG_FILE" ]; then
-        touch "$WEIGHT_LOG_FILE"
+        mkfile "$WEIGHT_LOG_FILE"
         echo "timestamp,weight_kg" > "$WEIGHT_LOG_FILE"
     fi
     if [ ! -f "$EXERCISES_FILE" ]; then
-        touch "$EXERCISES_FILE"
+        mkfile "$EXERCISES_FILE"
         for name in ${DEFAULT_EXERCISE_NAMES[@]}; do
             echo "$name" >> "$EXERCISES_FILE"
         done
