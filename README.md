@@ -10,15 +10,16 @@ directory.
 
 # Install
 
-The only file needed is the `mu_gym_logger.sh` executable file in this repo. You
-can either clone the repo and move the executable somewhere in you $PATH
-directories, or you can run these commands anywhere in a shell:
+The only file needed is the `mu_gym_logger.sh` executable file in this repo.
+You can either clone the repo and move the executable somewhere visible by your
+$PATH environment variable, or you can run the following commands anywhere in a
+shell:
 ```bash
 wget https://raw.githubusercontent.com/AyoubMounim/mu_exercise_logger/master/mu_gym_logger.sh; sudo mv ./mu_gym_logger.sh /usr/local/bin/
 ```
-The script simply downloads a copy of the executable and then moves it in the
-`/usr/local/bin/` directory, which is usually listed in the $PATH enviromental
-variable.
+These commands simply downloads
+a copy of the executable and then moves it in the `/usr/local/bin/` directory,
+which is usually listed in the $PATH environment variable.
 
 ## Usage
 
