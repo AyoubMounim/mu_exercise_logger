@@ -14,7 +14,7 @@ MENU_HEIGHT=5
 NOTIFICATION_HEIGHT=5
 NOTIFICATION_WIDTH=50
 
-LOG_FILE="./log.csv"
+LOG_FILE="./exercise_log.csv"
 WEIGHT_LOG_FILE="./weight_log.csv"
 EXERCISES_FILE="./exercises.txt"
 
@@ -34,7 +34,7 @@ function update_exercises(){
 function init(){
     if [ ! -f "$LOG_FILE" ]; then
         touch "$LOG_FILE"
-        echo "exercise_name,reps,weight_kg" > "$LOG_FILE"
+        echo "timestamp,exercise_name,reps,weight_kg" > "$LOG_FILE"
     fi
     if [ ! -f "$WEIGHT_LOG_FILE" ]; then
         touch "$WEIGHT_LOG_FILE"
@@ -61,21 +61,38 @@ function notification(){
     return 0
 }
 
+function log_weight_data_csv_file(){
+    if [ $# -ne 2 ]; then
+        notification "Error! Weight not logged."
+        return 1
+    fi
+    local timestamp=$(date +%s)
+    local weight="$1"
+    local file="$2"
+    if [ ! -f "$file" ]; then
+        notification "Error: log file does not exist."
+        return 1
+    fi
+    echo "$timestamp,$weight" >> "$file"
+    notification "Weight logged."
+    return 0
+}
+
 function log_exercise_data_csv_file(){
     if [ $# -ne 4 ]; then
         notification "Error! Exercise not logged."
         return 1
     fi
+    local timestamp=$(date +%s)
     local exercise_name="$1"
     local reps="$2"
     local weight="$3"
     local file="$4"
-    [ -z "$file" ] && return 1
     if [ ! -f "$file" ]; then
-        touch "$4"
-        echo "exercise_name,reps,weight_kg" > "$file"
+        notification "Error: log file does not exist."
+        return 1
     fi
-    echo "$exercise_name,$reps,$weight" >> "$file"
+    echo "$timestamp,$exercise_name,$reps,$weight" >> "$file"
     notification "Exercise logged."
     return 0
 }
@@ -127,8 +144,7 @@ function log_weight(){
         2>&1 1>&3)
     exec 3>&-
     [ -z "$selection" ] && return 1
-    local timestamp=0
-    echo "$timestamp,$selection" >> $WEIGHT_LOG_FILE
+    log_weight_data_csv_file $selection "$WEIGHT_LOG_FILE"
     return 0
 }
 
