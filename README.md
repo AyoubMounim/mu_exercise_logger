@@ -3,10 +3,11 @@
 
 This project is a simple logger to be used for gym activity book-keeping. The
 logger is written in bash and has a simple and intuitive text user interface
-based on the [dialog](https://invisible-island.net/) utility. By default, all
-files needed for the logger run-time are stored in the following directory:
-`$HOME/.local/share/mu_gym_logger/`. This behavior can be changed by setting
-the enviromental variable `MU_GYM_LOGGER_DIR` to any desired directory.
+based on the [dialog](https://invisible-island.net/dialog/dialog.html) utility.
+By default, all files needed for the logger run-time are stored in the
+following directory: `$HOME/.local/share/mu_gym_logger/`. This behavior can be
+changed by setting the enviromental variable `MU_GYM_LOGGER_DIR` to any desired
+directory.
 
 # Install
 
