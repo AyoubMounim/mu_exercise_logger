@@ -15,6 +15,7 @@ NOTIFICATION_HEIGHT=5
 NOTIFICATION_WIDTH=50
 
 LOG_FILE="./log.csv"
+WEIGHT_LOG_FILE="./weight_log.csv"
 EXERCISES_FILE="./exercises.txt"
 
 DEFAULT_EXERCISE_NAMES=("Squat" "Dead-lift" "Row" "Military-press" "Bench-press")
@@ -34,6 +35,10 @@ function init(){
     if [ ! -f "$LOG_FILE" ]; then
         touch "$LOG_FILE"
         echo "exercise_name,reps,weight_kg" > "$LOG_FILE"
+    fi
+    if [ ! -f "$WEIGHT_LOG_FILE" ]; then
+        touch "$WEIGHT_LOG_FILE"
+        echo "timestamp,weight_kg" > "$WEIGHT_LOG_FILE"
     fi
     if [ ! -f "$EXERCISES_FILE" ]; then
         touch "$EXERCISES_FILE"
@@ -113,8 +118,17 @@ function log_exercise(){
 }
 
 function log_weight(){
-    echo -e "Logging weight\n"
-    sleep 5
+    exec 3>&1
+    selection=$(dialog \
+        --title "Log Weight" \
+        --clear \
+        --cancel-label "Back" \
+        --inputbox  "Weight:" $HEIGHT $WIDTH \
+        2>&1 1>&3)
+    exec 3>&-
+    [ -z "$selection" ] && return 1
+    local timestamp=0
+    echo "$timestamp,$selection" >> $WEIGHT_LOG_FILE
     return 0
 }
 
