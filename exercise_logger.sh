@@ -22,6 +22,7 @@ EXERCISES=()
 
 
 function update_exercises(){
+    EXERCISES=()
     local exercise_names=($(cat $EXERCISES_FILE))
     for index in $(seq 0 $((${#exercise_names[@]}-1))); do
         EXERCISES+=($(($index+1)) ${exercise_names[$index]})
@@ -125,9 +126,10 @@ function add_exercise(){
         --cancel-label "Back" \
         --inputbox  "Exercise name:" $HEIGHT $WIDTH \
         2>&1 1>&3)
-    exit_status=$?
     exec 3>&-
-    # TODO: add the input exercise.
+    [ -z "$selection" ] && return 1
+    echo "$selection" >> $EXERCISES_FILE
+    update_exercises
     return 0
 }
 
